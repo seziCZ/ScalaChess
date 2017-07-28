@@ -25,8 +25,8 @@ class BoardTests extends FunSuite {
       Board(Seq.empty, history)
 
     // act, assert
-    assert(initBoard.atMove == White)
-    assert(board.atMove == Black)
+    assert(initBoard.onMove == White)
+    assert(board.onMove == Black)
   }
 
   test("draw is recognised correctly"){

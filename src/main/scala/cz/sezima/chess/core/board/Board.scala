@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.core.board
 
@@ -14,7 +14,7 @@ import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.piece._
 
 /**
-  * Representation of a chess board.
+  * Representation of a chess [[Board]].
   */
 case class Board private[core] (
     pieces: Seq[Piece],
@@ -24,7 +24,7 @@ case class Board private[core] (
   /**
     * [[Color]] of a [[Player]] that is expected to make a next move.
     */
-  val atMove: Color =
+  val onMove: Color =
     history.headOption.map(_.piece.color.inv).getOrElse(White)
 
   /**
@@ -38,9 +38,9 @@ case class Board private[core] (
     player.play(this).performAt(this)
 
   /**
-    * Determines whether there a [[Move]] exists that might be played by a
-    * player of given [[Color]]. In another words, 'false' returned by this
-    * function indicates that draw (or checkmate) has occurred...
+    * Figures out whether a [[Move]] exists that might be played by a
+    * player of a given [[Color]]. In another words, 'false' returned by this
+    * function indicates that draw or checkmate has occurred...
     * @param color [[Color]] whose possible [[Move]]s are to be investigated
     * @return 'True' if there are any [[Move]]s given [[Color]] may play, 'false' otherwise
     */
@@ -89,8 +89,8 @@ case class Board private[core] (
     pieceBy((_: Piece).atPos == pos)
 
   /**
-    * Generates [[SeqView]] of all [[Move]]s that make sense.
-    * for [[Piece]]s of given [[Color]].
+    * Generates [[SeqView]] of all allowed [[Move]]s for [[Piece]]s of given
+    * [[Color]].
     * @param color [[Color]] of [[Piece]]s whose [[Move]]s are to be generated
     * @return A lazy [[SeqView]] containing all possible [[Move]]s
     *         of all [[Piece]]s of a given [[Color]]
@@ -104,8 +104,9 @@ case class Board private[core] (
 
   /**
     * Generates [[SeqView]] of all [[Board]]s that could be reached from
-    * 'this' [[Board]]
-    * @param color [[Color]] of [[Piece]]s whose [[Move]]s are to be used for [[Board]] generation
+    * 'this' [[Board]].
+    * @param color [[Color]] of [[Piece]]s whose [[Move]]s are to be
+    *             used for [[Board]] generation
     * @return A lazy [[SeqView]] contating all possible [[Board]]s
     *         reachable by [[Piece]] of given [[Color]]
     */
@@ -153,6 +154,7 @@ object Board {
       Factory(Knight.apply, Seq('b', 'g')),
       Factory(Bishop.apply, Seq('c', 'f')),
       Factory(Queen.apply, Some('d')),
+      Factory(King.apply, Some('e')),
       Factory(King.apply, Some('e'))
     )
 

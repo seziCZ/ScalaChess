@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.api
 
@@ -36,18 +36,18 @@ object Chess {
     */
   @tailrec
   def play(white: Player, black: Player, at: Board): Board = at match {
-    case board if board.isCheckmated(board.atMove) =>
-      white.notify(s"Game over, ${board.atMove.inv} player won!")
-      black.notify(s"Game over, ${board.atMove.inv} player won!")
+    case board if board.isCheckmated(board.onMove) =>
+      white.notify(s"Game over, ${board.onMove.inv} player won!")
+      black.notify(s"Game over, ${board.onMove.inv} player won!")
       board
 
-    case board if !board.mayPlay(board.atMove) =>
+    case board if !board.mayPlay(board.onMove) =>
       white.notify("Game over, it's a draw!")
       black.notify("Game over, it's a draw!")
       board
 
-    case board if White == board.atMove => play(white, black, play(white, at))
-    case board if Black == board.atMove => play(white, black, play(black, at))
+    case board if White == board.onMove => play(white, black, play(white, at))
+    case board if Black == board.onMove => play(white, black, play(black, at))
   }
 
   @tailrec

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.core.piece
 
@@ -11,7 +11,7 @@ import cz.sezima.chess.core.board.BoardExtensions._
 import cz.sezima.chess.core.board.{Board, Square}
 
 /**
-  * A king.
+  * A [[King]].
   */
 final case class King(color: Color, atPos: Square) extends Piece {
 
@@ -65,7 +65,7 @@ final case class King(color: Color, atPos: Square) extends Piece {
     lazy val isSafeRow: Boolean = {
       val boards: Seq[Board] =
         ((this until dest) :+ dest).map(s => (this ~> s).update(b))
-      (b +: boards).forall(!_.isInCheck(color)) // i.e. checks 'this' board for check as well
+      (b +: boards).forall(!_.isInCheck(color))
     }
 
     !hasPieceMoved(rook, b) && !hasPieceMoved(this, b) &&
@@ -79,6 +79,6 @@ final case class King(color: Color, atPos: Square) extends Piece {
     * @return 'True' if [[Piece]] hosted by given [[Square]] has moved, 'false' otherwise
     */
   private def hasPieceMoved(from: Square, at: Board): Boolean =
-    at.history.exists(m => m.piece.atPos == from || m.dest == from)
+    at.history.exists { case Move(p, d) => p.atPos == from || d == from }
 
 }

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.core.piece
 
@@ -11,7 +11,7 @@ import cz.sezima.chess.core.board.BoardExtensions._
 import cz.sezima.chess.core.board.{Board, Square}
 
 /**
-  * A queen.
+  * A [[Queen]].
   */
 final case class Queen(color: Color, atPos: Square) extends Piece {
 

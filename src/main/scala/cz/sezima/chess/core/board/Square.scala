@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.core.board
 
@@ -35,7 +35,7 @@ case class Square(file: Char, rank: Int) {
     if ((x - y) % 2 == 0) Black else White
 
   /**
-    * Asserts whether 'this' entry shares file with given [[Square]]
+    * Asserts that 'this' entry shares file with given [[Square]]
     * @param pos [[Square]] whose file is to be compared to 'this' file
     * @return 'True' if given [[Square]] shares file with 'this' entry,
     *         'false' otherwise
@@ -44,7 +44,7 @@ case class Square(file: Char, rank: Int) {
     file == pos.file
 
   /**
-    * Asserts whether 'this' entry shares rank with given [[Square]]
+    * Asserts that 'this' entry shares rank with given [[Square]]
     * @param pos [[Square]] whose rank is to be compared to 'this' rank
     * @return 'True' if given [[Square]] shares rank with 'this' entry,
     *         'false' otherwise
@@ -53,7 +53,7 @@ case class Square(file: Char, rank: Int) {
     rank == pos.rank
 
   /**
-    * Asserts whether 'this' entry shares diagonal with given [[Square]]
+    * Asserts that 'this' entry shares diagonal with given [[Square]]
     * @param pos [[Square]] whose diagonal is to be compared to 'this' diagonal
     * @return 'True' if given [[Square]] shares diagonal with 'this' entry,
     *         'false' otherwise
@@ -67,7 +67,7 @@ case class Square(file: Char, rank: Int) {
     * @return [[Seq]] of [[Square]]s that reside between 'this' and
     *        given [[Square]] entries
     */
-  def until(coord: Square): Seq[Square] = coord match {
+  def until(coordinate: Square): Seq[Square] = coordinate match {
     case to if sharesDiag(to) =>
       iter(to, _.file).zip(iter(to, _.rank))
         .map { case (f, r) => Square(f.toChar, r) }
@@ -95,13 +95,13 @@ object Square {
 
   /**
     * Allows creation of [[Square]] from human readable [[String]] (e.g. 'c4')
-    * @param coords [[String]] representation of a [[Square]] to be created
+    * @param square [[String]] representation of a [[Square]] to be created
     * @return [[Square]] created from given [[String]] representation
     * @throws IllegalArgumentException if given [[String]] is not a valid [[Square]]
     */
-  def apply(coords: String): Square = {
-    require(coords.length == 2)
-    Square(coords.head.toLower, coords.tail.toInt)
+  def apply(square: String): Square = {
+    require(square.length == 2)
+    Square(square.head.toLower, square.tail.toInt)
   }
 
   /**

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.api.player
 
@@ -20,9 +20,9 @@ import cz.sezima.chess.core.piece.Move
 case class AlphaBetaPlayer(maxMoves: Int) extends Player {
 
   override def play(seed: Board): Move = {
-    val exp = log(maxMoves) / log(seed.totalMoves(seed.atMove))
+    val exp = log(maxMoves) / log(seed.totalMoves(seed.onMove))
     val depth: Int = max(2, exp.toInt - exp.toInt % 2)
-    αβ(seed, depth).history.dropRight(seed.history.length).last
+    αβ(seed, depth).history.reverse(seed.history.length)
   }
 
   override def notify(msg: String): Unit = {
@@ -63,7 +63,7 @@ object AlphaBetaPlayer {
       * @param β     the best [[αβMin]] value guaranteed by the level above
       */
     def αβMax(b: Board, depth: Int, α: Aβ, β: Aβ): Aβ =
-      b.genBoards(b.atMove) match {
+      b.genBoards(b.onMove) match {
         case children if children.isEmpty || depth == 0 => αβEval(b, depth)
         case children =>
           children.foldLeft(α) {
@@ -82,7 +82,7 @@ object AlphaBetaPlayer {
       * @param β     the best [[αβMin]] value guaranteed by the level above
       */
     def αβMin(b: Board, depth: Int, α: Aβ, β: Aβ): Aβ =
-      b.genBoards(b.atMove) match {
+      b.genBoards(b.onMove) match {
         case children if depth == 0 || children.isEmpty => αβEval(b, depth).inv
         case children =>
           children.foldLeft(β) {
@@ -95,7 +95,7 @@ object AlphaBetaPlayer {
 
     /**
       * An evaluation function. Think of why [[seed]] board and it's player
-      * (i.e. [[cz.sezima.chess.core.Color]]) may be referenced directly...
+      * (color) may be referenced directly...
       * @param step  A [[Board]] to be evaluated
       * @param depth '0' if desired depth has been reached,
       *              non zero integer if player did not have any moves left
@@ -103,16 +103,15 @@ object AlphaBetaPlayer {
       */
     def αβEval(step: Board, depth: Int): Aβ = step match {
       case b if depth != 0 => αβEval(step, depth - 1).inv
-      case b if b.isCheckmated(seed.atMove) => Aβ(99 * Byte.MinValue, b)
-      case b if b.isCheckmated(seed.atMove.inv) => Aβ(99 * Byte.MaxValue, b)
+      case b if b.isCheckmated(seed.onMove) => Aβ(99 * Byte.MinValue, b)
+      case b if b.isCheckmated(seed.onMove.inv) => Aβ(99 * Byte.MaxValue, b)
       case b =>
         val evaluation: Int =
-          9 * (b.totalWeight(seed.atMove) - b.totalWeight(seed.atMove.inv)) +
-            1 * (b.capturesWeight(seed.atMove) - b.capturesWeight(seed.atMove.inv))
+          9 * (b.totalWeight(seed.onMove) - b.totalWeight(seed.onMove.inv)) +
+            1 * (b.capturesWeight(seed.onMove) - b.capturesWeight(seed.onMove.inv))
         Aβ(evaluation, b)
     }
 
-    // alright, let's do this...
     val α = Aβ(Int.MinValue, seed)
     val β = Aβ(Int.MaxValue, seed)
     αβMax(seed, depth, α, β).result

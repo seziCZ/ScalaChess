@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.api.player
 
@@ -20,12 +20,15 @@ class AlphaBetaPlayerTests extends FunSuite {
 
   val randomPlayer: Player = new Player {
     override def play(board: Board): Move =
-      Random.shuffle(board.genBoards(board.atMove)).head.history.head
+      Random.shuffle(board.genBoards(board.onMove)).head.history.head
   }
 
   val αβPlayer: Player =
     AlphaBetaPlayer(1600)
 
+  /**
+    * What are the odds random player would win?
+    */
   test("black alpha-beta player beats random white player") {
 
     // act
@@ -34,7 +37,7 @@ class AlphaBetaPlayerTests extends FunSuite {
 
     // assert
     assert(result.isCheckmated(White), result)
-    // println(s"game lasted for ${result.history.length} moves: \n$result")
+    println(s"Test game lasted for ${result.history.length} moves: \n$result")
   }
 
   test("white alpha-beta player beats random black player") {
@@ -45,6 +48,6 @@ class AlphaBetaPlayerTests extends FunSuite {
 
     // assert
     assert(result.isCheckmated(Black), result)
-    // println(s"game lasted for ${result.history.length} moves: \n$result")
+    println(s"Test game lasted for ${result.history.length} moves: \n$result")
   }
 }

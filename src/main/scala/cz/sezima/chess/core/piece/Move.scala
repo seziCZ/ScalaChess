@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2017, Tomas Sezima
+ * Copyright (c) 2017 Tomas Sezima
  * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
+ * of the MIT license. See the LICENSE file for details.
  */
 package cz.sezima.chess.core.piece
 
@@ -53,7 +53,7 @@ case class Move(piece: Piece, dest: Square) {
   // validation functions
 
   private[piece] def validateColorAt(board: Board): Option[String] =
-    if (board.atMove == piece.color) None
+    if (board.onMove == piece.color) None
     else Some(s"It's opponent's move.")
 
   private[piece] def validateMembershipAt(board: Board): Option[String] =
