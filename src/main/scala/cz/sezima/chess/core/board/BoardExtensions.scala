@@ -106,10 +106,11 @@ object BoardExtensions {
       * @return Weight of all [[Piece]]s that might be captured by given [[Color]]
       */
     def capturesWeight(color: Color): Int = {
+      val grouped: Map[Color, Seq[Piece]] = board.pieces.groupBy(_.color)
       val weights: Iterable[Int] =
         for {
-          capturing <- board.pieces.filter(_.color == color)
-          captured <- board.pieces.filter(_.color != color)
+          capturing <- grouped(color)
+          captured <- grouped(color.inv)
           if capturing.mayCapture(captured.atPos, board)
         } yield captured.weight
 

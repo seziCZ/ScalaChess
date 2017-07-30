@@ -5,13 +5,13 @@
  */
 package cz.sezima.chess.core.board
 
-import scala.collection.SeqView
-import scala.reflect.ClassTag
-
 import cz.sezima.chess.api.player.Player
 import cz.sezima.chess.core.Color
 import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.piece._
+
+import scala.collection.SeqView
+import scala.reflect.ClassTag
 
 /**
   * Representation of a chess [[Board]].
@@ -26,6 +26,20 @@ case class Board private[core] (
     */
   val onMove: Color =
     history.headOption.map(_.piece.color.inv).getOrElse(White)
+
+  /**
+   * Determines whether 'this' [[Board]] is coherent.
+   * @return 'True' if board describes valid game, 'false' otherwise
+   */
+  lazy val isValid: Boolean = {
+    val init: Either[Board, String] = Left(Board.Initial)
+    val replayed = history.foldRight(init) {
+      case (_, err: Right[Board, String]) => err
+      case (m, Left(b)) => m.performAt(b)
+    }
+
+    replayed.isLeft
+  }
 
   /**
     * Core function that allows given [[Player]] to play a [[Move]] on
@@ -47,19 +61,6 @@ case class Board private[core] (
   def mayPlay(color: Color): Boolean =
     genBoards(color).nonEmpty
 
-  /**
-    * Determines whether 'this' [[Board]] is coherent.
-    * @return 'True' if board describes valid game, 'false' otherwise
-    */
-  lazy val isValid: Boolean = {
-    val init: Either[Board, String] = Left(Board.Initial)
-    val replayed = history.foldRight(init) {
-      case (_, err: Right[Board, String]) => err
-      case (m, Left(b)) => m.performAt(b)
-    }
-
-    replayed.isLeft
-  }
 
   /**
     * Determines whether [[King]] of given [[Color]] faces a check.
@@ -68,7 +69,7 @@ case class Board private[core] (
     */
   def isInCheck(color: Color): Boolean = {
     val king: King = pieceBy((_: King).color == color).get
-    pieces.exists(_.mayCapture(king.atPos, this))
+    pieces.filter(_.color != color).exists(_.mayCapture(king.atPos, this))
   }
 
   /**
@@ -89,18 +90,33 @@ case class Board private[core] (
     pieceBy((_: Piece).atPos == pos)
 
   /**
+   * A generic version of [[pieceAt]] function. An interesting thing here is that
+   * parameter is being type checked which allows queries like (k: King) => ...
+   * @param req A condition to be used when looking for a [[Piece]]
+   * @return [[Piece]] that matches given condition, [[None]] if no such a [[Piece]] exists
+   */
+  private[chess] def pieceBy[T <: Piece](req: T => Boolean)(
+    implicit ct: ClassTag[T]): Option[T] =
+    pieces
+      .find { case piece: T => req(piece); case _ => false }
+      .asInstanceOf[Option[T]]
+
+  /**
     * Generates [[SeqView]] of all allowed [[Move]]s for [[Piece]]s of given
     * [[Color]].
     * @param color [[Color]] of [[Piece]]s whose [[Move]]s are to be generated
     * @return A lazy [[SeqView]] containing all possible [[Move]]s
     *         of all [[Piece]]s of a given [[Color]]
     */
-  private[chess] def genMoves(color: Color): SeqView[Move, Seq[_]] =
+  private[chess] def genMoves(color: Color): SeqView[Move, Seq[_]] = {
+    val controlled: Seq[Piece] = pieces.filter(_.color == color)
+    val reachable: Seq[Square] = Square.All.filterNot(controlled.map(_.atPos).contains)
     for {
-      piece <- pieces.filter(_.color == color).view
-      square <- Square.All.view
+      piece: Piece <- controlled.view
+      square: Square <- reachable.view
       if piece.mayReach(square, this)
     } yield Move(piece, square)
+  }
 
   /**
     * Generates [[SeqView]] of all [[Board]]s that could be reached from
@@ -112,18 +128,6 @@ case class Board private[core] (
     */
   private[chess] def genBoards(color: Color): SeqView[Board, Seq[_]] =
     genMoves(color).flatMap(_.performAt(this).left.toOption)
-
-  /**
-    * A generic version of [[pieceAt]] function. An interesting thing here is that
-    * parameter is being type checked which allows queries like (k: King) => ...
-    * @param req A condition to be used when looking for a [[Piece]]
-    * @return [[Piece]] that matches given condition, [[None]] if no such a [[Piece]] exists
-    */
-  private[chess] def pieceBy[T <: Piece](req: T => Boolean)(
-      implicit ct: ClassTag[T]): Option[T] =
-    pieces
-      .find { case piece: T => req(piece); case _ => false }
-      .asInstanceOf[Option[T]]
 
   override def toString: String = {
     val toSymbol = pieceAt(_: Square).map(_.symbol).getOrElse("_")

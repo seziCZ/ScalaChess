@@ -15,7 +15,7 @@ import cz.sezima.chess.core.board.{Board, Square}
   */
 final case class King(color: Color, atPos: Square) extends Piece {
 
-  override val weight: Int = 8 * 1 + 2 * 5 + 4 * 3 + 9 + 1
+  override val weight: Int = 20
   override val symbol: Char = if (color == White) '♔' else '♚'
 
   override def mayMoveTo(to: Square, at: Board): Boolean = {

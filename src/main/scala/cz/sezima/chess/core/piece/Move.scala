@@ -23,19 +23,20 @@ case class Move(piece: Piece, dest: Square) {
     *        or [[String]] error message
     */
   def performAt(board: Board): Either[Board, String] = {
-    val validationMsg: Option[String] =
-      validateColorAt(board)
-        .orElse(validateMembershipAt(board))
-        .orElse(validateMovementAt(board))
-        .orElse(validateKingAt(board))
-
-    lazy val updated: Board =
-      piece.reachCallback(update(board))
-
-    validationMsg
-      .map(Right.apply)
-      .getOrElse(Left(updated))
+    lazy val updated: Board = piece.reachCallback(update(board))
+    validateAt(board).map(Right.apply).getOrElse(validateKingAt(updated))
   }
+
+  /**
+   * Validates that given [[Board]] may be updated using 'this' [[Move]]
+   * @param board [[Board]] whose coherence is to be determined
+   * @return [[Some]] error message if [[Board]] could not be updated,
+   *        [[None]] otherwise
+   */
+  def validateAt(board: Board): Option[String] =
+    validateColorAt(board)
+      .orElse(validateMembershipAt(board))
+      .orElse(validateMovementAt(board))
 
   /**
     * Updates given [[Board]] using 'this' [[Move]] without checking its validity.
@@ -64,9 +65,9 @@ case class Move(piece: Piece, dest: Square) {
     if (piece.mayReach(dest, board)) None
     else Some(s"Piece ${piece.symbol} at ${piece.atPos} could not move to $dest.")
 
-  private[piece] def validateKingAt(board: Board): Option[String] =
-    if (!update(board).isInCheck(piece.color)) None
-    else Some(s"Your king must not end up being threaten.")
+  private[piece] def validateKingAt(updated: Board): Either[Board, String] =
+    if (!updated.isInCheck(piece.color)) Left(updated)
+    else Right(s"Your king must not end up being threaten.")
 
   override def toString: String =
     s"${piece.symbol}${piece.atPos} ~> $dest"

@@ -68,10 +68,13 @@ class MoveTests extends FunSuite {
     // setup
     val validMove = blackKing ~> Square('b', 5)
     val invalidMove = blackKing ~> Square('d', 5)
+    val validBoard = validMove.update(board)
+    val invalidBoard = invalidMove.update(board)
+
 
     // act, assert
-    assert(validMove.validateKingAt(board).isEmpty)
-    assert(invalidMove.validateKingAt(board).nonEmpty)
+    assert(validMove.validateKingAt(validBoard).isLeft)
+    assert(invalidMove.validateKingAt(invalidBoard).isRight)
   }
 
   test("board may be updated regardless of rules"){

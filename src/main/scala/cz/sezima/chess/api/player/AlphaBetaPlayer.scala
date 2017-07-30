@@ -107,7 +107,7 @@ object AlphaBetaPlayer {
       case b if b.isCheckmated(seed.onMove.inv) => Aβ(99 * Byte.MaxValue, b)
       case b =>
         val evaluation: Int =
-          9 * (b.totalWeight(seed.onMove) - b.totalWeight(seed.onMove.inv)) +
+          99 * (b.totalWeight(seed.onMove) - b.totalWeight(seed.onMove.inv)) +
             1 * (b.capturesWeight(seed.onMove) - b.capturesWeight(seed.onMove.inv))
         Aβ(evaluation, b)
     }
