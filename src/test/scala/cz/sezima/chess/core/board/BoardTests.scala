@@ -126,13 +126,13 @@ class BoardTests extends FunSuite {
 
     // act
     val whiteResult: Option[King] =
-      initBoard.pieceBy((k: King) => k.color == White)
+      initBoard.pieceBy[King](_.color == White)
 
     val blackResult: Option[Queen] =
-      initBoard.pieceBy((q: Queen) => q.color == Black)
+      initBoard.pieceBy[Queen](_.color == Black)
 
     val emptyResult: Option[Piece] =
-      initBoard.pieceBy((p: Piece) => p.atPos == Square('d', 4))
+      initBoard.pieceBy[Piece](_.atPos == Square('d', 4))
 
     // assert
     assert(whiteResult.isDefined)

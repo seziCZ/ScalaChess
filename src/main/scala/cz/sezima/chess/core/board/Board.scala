@@ -61,15 +61,14 @@ case class Board private[core] (
   def mayPlay(color: Color): Boolean =
     genBoards(color).nonEmpty
 
-
   /**
     * Determines whether [[King]] of given [[Color]] faces a check.
     * @param color [[Color]] of a [[King]] whose state is to be determined
     * @return 'True' if [[King]] of given [[Color]] faces a check, 'false' otherwise
     */
   def isInCheck(color: Color): Boolean = {
-    val king: King = pieceBy((_: King).color == color).get
-    pieces.filter(_.color != color).exists(_.mayCapture(king.atPos, this))
+    val king: King = pieceBy[King](_.color == color).get
+    pieceBy[Piece](_.mayCapture(king.atPos, this)).nonEmpty
   }
 
   /**
@@ -87,7 +86,7 @@ case class Board private[core] (
     *         [[None]] if no such a [[Piece]] exists
     */
   private[chess] def pieceAt(pos: Square): Option[Piece] =
-    pieceBy((_: Piece).atPos == pos)
+    pieceBy[Piece](_.atPos == pos)
 
   /**
    * A generic version of [[pieceAt]] function. An interesting thing here is that
@@ -110,7 +109,7 @@ case class Board private[core] (
     */
   private[chess] def genMoves(color: Color): SeqView[Move, Seq[_]] = {
     val controlled: Seq[Piece] = pieces.filter(_.color == color)
-    val reachable: Seq[Square] = Square.All.filterNot(controlled.map(_.atPos).contains)
+    val reachable: Seq[Square] = Square.All diff controlled.map(_.atPos)
     for {
       piece: Piece <- controlled.view
       square: Square <- reachable.view
@@ -123,7 +122,7 @@ case class Board private[core] (
     * 'this' [[Board]].
     * @param color [[Color]] of [[Piece]]s whose [[Move]]s are to be
     *             used for [[Board]] generation
-    * @return A lazy [[SeqView]] contating all possible [[Board]]s
+    * @return A lazy [[SeqView]] containing all possible [[Board]]s
     *         reachable by [[Piece]] of given [[Color]]
     */
   private[chess] def genBoards(color: Color): SeqView[Board, Seq[_]] =

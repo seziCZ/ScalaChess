@@ -39,7 +39,7 @@ object AlphaBetaPlayer {
   /**
     * An alpha-beta pruning algorithm.
     * TODO: Both evaluation function and board generation logic suffers of
-    * (obvious) performance bottlenecks that whould have to be optimized.
+    * (obvious) performance bottlenecks that should be optimized/refined.
     * @param seed An initial state in form of a [[Board]]
     * @return Number of evaluation tree levels to be examined
     */
@@ -94,8 +94,8 @@ object AlphaBetaPlayer {
       }
 
     /**
-      * An evaluation function. Think of why [[seed]] board and it's player
-      * (color) may be referenced directly...
+      * An evaluation function. For more info what next steps might be see
+      * https://chessprogramming.wikispaces.com/Evaluation
       * @param step  A [[Board]] to be evaluated
       * @param depth '0' if desired depth has been reached,
       *              non zero integer if player did not have any moves left
@@ -103,13 +103,9 @@ object AlphaBetaPlayer {
       */
     def αβEval(step: Board, depth: Int): Aβ = step match {
       case b if depth != 0 => αβEval(step, depth - 1).inv
-      case b if b.isCheckmated(seed.onMove) => Aβ(99 * Byte.MinValue, b)
-      case b if b.isCheckmated(seed.onMove.inv) => Aβ(99 * Byte.MaxValue, b)
-      case b =>
-        val evaluation: Int =
-          99 * (b.totalWeight(seed.onMove) - b.totalWeight(seed.onMove.inv)) +
-            1 * (b.capturesWeight(seed.onMove) - b.capturesWeight(seed.onMove.inv))
-        Aβ(evaluation, b)
+      case b if b.isCheckmated(seed.onMove) => Aβ(999 * Byte.MinValue, b)
+      case b if b.isCheckmated(seed.onMove.inv) => Aβ(999 * Byte.MaxValue, b)
+      case b => Aβ(b.totalWeight(b.onMove) - b.totalWeight(b.onMove.inv), b)
     }
 
     val α = Aβ(Int.MinValue, seed)
