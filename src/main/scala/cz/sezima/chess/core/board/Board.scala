@@ -157,7 +157,6 @@ object Board {
       Factory(Knight.apply, Seq('b', 'g')),
       Factory(Bishop.apply, Seq('c', 'f')),
       Factory(Queen.apply, Some('d')),
-      Factory(King.apply, Some('e')),
       Factory(King.apply, Some('e'))
     )
 
