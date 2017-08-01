@@ -15,6 +15,6 @@ import cz.sezima.chess.api.player.{AlphaBetaPlayer, ConsolePlayer, Player}
 object Application extends App {
 
   val white: Player = ConsolePlayer(SimpleNotation)
-  val black: Player = AlphaBetaPlayer(2560000)
+  val black: Player = AlphaBetaPlayer(searchDepth = 4)
   Chess.play(white, black)
 }

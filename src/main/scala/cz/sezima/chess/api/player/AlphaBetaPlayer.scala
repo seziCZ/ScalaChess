@@ -5,8 +5,6 @@
  */
 package cz.sezima.chess.api.player
 
-import scala.math._
-
 import cz.sezima.chess.api.player.AlphaBetaPlayer._
 import cz.sezima.chess.core.board.Board
 import cz.sezima.chess.core.board.BoardExtensions._
@@ -15,15 +13,15 @@ import cz.sezima.chess.core.piece.Move
 /**
   * An artificial [[Player]] implemented using alpha-beta pruning.
   * For more info see e.g. 'https://chessprogramming.wikispaces.com/Alpha-Beta'
-  * @param maxMoves Maximal allowed number of [[Move]]s to be generated
+  * @param searchDepth Maximal allowed depth of a search tree to be constructed
   */
-case class AlphaBetaPlayer(maxMoves: Int) extends Player {
+case class AlphaBetaPlayer(searchDepth: Int) extends Player {
+  require(searchDepth > 0 && searchDepth % 2 == 0,
+    "Search depth has to be an even number greater than 0.")
 
-  override def play(seed: Board): Move = {
-    val exp = log(maxMoves) / log(seed.totalMoves(seed.onMove))
-    val depth: Int = max(2, exp.toInt - exp.toInt % 2)
-    αβ(seed, depth).history.reverse(seed.history.length)
-  }
+  override def play(seed: Board): Move =
+    αβ(seed, searchDepth).history.reverse(seed.history.length)
+
 
   override def notify(msg: String): Unit = {
     // i.e. there is nobody to be notified...

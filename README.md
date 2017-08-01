@@ -5,7 +5,7 @@ imperative and functional programming paradigms. My intention was to write a
 code that is as concise as possible,
 ```
 val white: Player = ConsolePlayer(notation = SimpleNotation)
-val black: Player = AlphaBetaPlayer(maxMoves = 2560000)
+val black: Player = AlphaBetaPlayer(searchDepth = 4)
 Chess.play(white, black)
 ```
 any contribution is highly appreciated though!

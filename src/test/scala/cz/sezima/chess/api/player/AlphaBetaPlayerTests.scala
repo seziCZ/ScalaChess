@@ -24,7 +24,7 @@ class AlphaBetaPlayerTests extends FunSuite {
   }
 
   val αβPlayer: Player =
-    AlphaBetaPlayer(1600)
+    AlphaBetaPlayer(2)
 
   /**
     * What are the odds random player would win?

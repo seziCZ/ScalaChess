@@ -5,13 +5,13 @@
  */
 package cz.sezima.chess.core.board
 
+import scala.collection.SeqView
+import scala.reflect.ClassTag
+
 import cz.sezima.chess.api.player.Player
 import cz.sezima.chess.core.Color
 import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.piece._
-
-import scala.collection.SeqView
-import scala.reflect.ClassTag
 
 /**
   * Representation of a chess [[Board]].
@@ -129,7 +129,7 @@ case class Board private[core] (
     genMoves(color).flatMap(_.performAt(this).left.toOption)
 
   override def toString: String = {
-    val toSymbol = pieceAt(_: Square).map(_.symbol).getOrElse("_")
+    val toSymbol = pieceAt(_: Square).map(_.symbol).getOrElse("＿")
     val symbols = Square.All.map(toSymbol).grouped(8)
     symbols.map(_.mkString("|", "|", "|")).mkString("\n")
   }
