@@ -32,8 +32,8 @@ final case class Rook(color: Color, atPos: Square) extends Piece {
     *         'false' otherwise
     */
   private def mayInteractWith(to: Square, at: Board): Boolean = to match {
-    case dest if this.sharesFile(dest) => at.isEmptyFiles(atPos, dest)
-    case dest if this.sharesRank(dest) => at.isEmptyRanks(atPos, dest)
+    case dest if this.sharesFile(dest) => at.areEmptyFiles(atPos, dest)
+    case dest if this.sharesRank(dest) => at.areEmptyRanks(atPos, dest)
     case _ => false
   }
 }

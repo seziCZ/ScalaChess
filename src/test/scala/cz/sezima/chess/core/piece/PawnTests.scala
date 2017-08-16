@@ -11,8 +11,8 @@ import cz.sezima.chess.core.board.{Board, Square}
 import org.scalatest.FunSuite
 
 /**
- * A set of [[Pawn]] relevnt unit tests.
- */
+  * A set of [[Pawn]] relevnt unit tests.
+  */
 class PawnTests extends FunSuite {
 
   val whitePawnA = Pawn(White, Square('a', 2))
@@ -34,8 +34,7 @@ class PawnTests extends FunSuite {
   val board: Board =
     Board(pawns, Seq.empty)
 
-
-  test("white may move in expected directions"){
+  test("white may move in expected directions") {
 
     // setup
     val expAmoves = Set(Square('a', 3), Square('a', 4))
@@ -53,7 +52,7 @@ class PawnTests extends FunSuite {
     assert(expCmoves == cMoves)
   }
 
-  test("black may move in expected directions"){
+  test("black may move in expected directions") {
 
     // setup
     val expAmoves = Set(Square('a', 5), Square('a', 6))
@@ -71,7 +70,7 @@ class PawnTests extends FunSuite {
     assert(expCmoves == cMoves)
   }
 
-  test("black pawns capture expected positions"){
+  test("black pawns capture expected positions") {
 
     // setup
     val expCaptures: Seq[Square] =
@@ -79,7 +78,7 @@ class PawnTests extends FunSuite {
 
     // act
     val captures: Seq[Square] =
-      for{
+      for {
         square <- All
         pawn <- pawns.filter(_.color == Black)
         if pawn.mayCapture(square, board)
@@ -89,7 +88,7 @@ class PawnTests extends FunSuite {
     assert(expCaptures == captures)
   }
 
-  test("white pawns capture expected positions"){
+  test("white pawns capture expected positions") {
 
     // setup
     val expCaptures: Seq[Square] =
@@ -97,7 +96,7 @@ class PawnTests extends FunSuite {
 
     // act
     val captures: Seq[Square] =
-      for{
+      for {
         square <- All
         pawn <- pawns.filter(_.color == White)
         if pawn.mayCapture(square, board)
@@ -107,7 +106,7 @@ class PawnTests extends FunSuite {
     assert(expCaptures == captures)
   }
 
-  test("black 'en passant' move is recognised correctly"){
+  test("black 'en passant' move is recognised correctly") {
 
     // setup
     val whitePawn = Pawn(White, Square('c', 4))
@@ -132,7 +131,7 @@ class PawnTests extends FunSuite {
     assert(blackPawn.mayCapture(enPassanSquare, enPassanBoard))
   }
 
-  test("black 'en passant' move is handled correctly"){
+  test("black 'en passant' move is handled correctly") {
 
     // setup
     val whitePawn = Pawn(White, Square('c', 4))
@@ -162,7 +161,7 @@ class PawnTests extends FunSuite {
     assert(!updated.pieces.contains(whitePawn))
   }
 
-  test("white 'en passant' move is recognised correctly"){
+  test("white 'en passant' move is recognised correctly") {
 
     // setup
     val whitePawn = Pawn(White, Square('d', 5))
@@ -186,7 +185,7 @@ class PawnTests extends FunSuite {
     assert(whitePawn.mayCapture(enPassanSquare, enPassanBoard))
   }
 
-  test("white 'en passant' move is handled correctly"){
+  test("white 'en passant' move is handled correctly") {
 
     // setup
     val whitePawn = Pawn(White, Square('d', 6))
@@ -213,14 +212,13 @@ class PawnTests extends FunSuite {
     assert(!result.pieces.contains(blackPawn))
   }
 
-  test("white pawn is substituted by a queen when it reaches rank 8"){
+  test("white pawn is substituted by a queen when it reaches rank 8") {
 
     // setup
     val subPawn: Pawn =
       Pawn(White, Square('d', 8))
 
-    val subMove: Seq[Move] = Seq(
-      Pawn(White, Square('d', 7)) ~> Square('d', 8))
+    val subMove: Seq[Move] = Seq(Pawn(White, Square('d', 7)) ~> Square('d', 8))
 
     val subBoard: Board =
       Board(Seq(subPawn), subMove)
@@ -237,14 +235,13 @@ class PawnTests extends FunSuite {
     assert(result.pieces.contains(expPiece))
   }
 
-  test("black pawn is substituted by a queen when it reaches rank 1"){
+  test("black pawn is substituted by a queen when it reaches rank 1") {
 
     // setup
     val subPawn: Pawn =
       Pawn(Black, Square('d', 1))
 
-    val subMove: Seq[Move] = Seq(
-      Pawn(Black, Square('d', 2)) ~> Square('d', 1))
+    val subMove: Seq[Move] = Seq(Pawn(Black, Square('d', 2)) ~> Square('d', 1))
 
     val subBoard: Board =
       Board(Seq(subPawn), subMove)

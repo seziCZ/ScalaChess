@@ -8,12 +8,11 @@ package cz.sezima.chess.core.piece
 import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.board.Square._
 import cz.sezima.chess.core.board.{Board, Square}
-import cz.sezima.chess.core.piece
 import org.scalatest.FunSuite
 
 /**
- * A set of [[King]] relevant unit tests.
- */
+  * A set of [[King]] relevant unit tests.
+  */
 class KingTests extends FunSuite {
 
   val king: King =
@@ -29,7 +28,7 @@ class KingTests extends FunSuite {
   val board: Board =
     Board(pieces, Seq.empty)
 
-  test("kings may move to expected positions"){
+  test("kings may move to expected positions") {
 
     // setup
     val expMoves = Seq(
@@ -49,7 +48,7 @@ class KingTests extends FunSuite {
     assert(expMoves.toSet == moves.toSet)
   }
 
-  test("white castling is handled correctly"){
+  test("white castling is handled correctly") {
 
     // setup
     val updatedKing: King =
@@ -60,8 +59,7 @@ class KingTests extends FunSuite {
       Rook(White, Square('a', 1))
     )
 
-    val castlingMove: Seq[Move] = Seq(
-      king ~> updatedKing.atPos)
+    val castlingMove: Seq[Move] = Seq(king ~> updatedKing.atPos)
 
     val castlingBoard: Board =
       Board(castlingPieces, castlingMove)

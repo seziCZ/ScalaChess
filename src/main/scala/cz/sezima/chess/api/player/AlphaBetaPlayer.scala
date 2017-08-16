@@ -22,7 +22,6 @@ case class AlphaBetaPlayer(searchDepth: Int) extends Player {
   override def play(seed: Board): Move =
     αβ(seed, searchDepth).history.reverse(seed.history.length)
 
-
   override def notify(msg: String): Unit = {
     // i.e. there is nobody to be notified...
   }

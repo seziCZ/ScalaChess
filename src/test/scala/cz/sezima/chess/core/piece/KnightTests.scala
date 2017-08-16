@@ -11,8 +11,8 @@ import cz.sezima.chess.core.board.{Board, Square}
 import org.scalatest.FunSuite
 
 /**
- * A set of [[Knight]] relevant unit tests.
- */
+  * A set of [[Knight]] relevant unit tests.
+  */
 class KnightTests extends FunSuite {
 
   val whiteKnightA = Knight(White, Square('b', 1))
@@ -28,7 +28,7 @@ class KnightTests extends FunSuite {
   val board: Board =
     Board(knights, Seq.empty)
 
-  test("knights may move to expected squares"){
+  test("knights may move to expected squares") {
 
     // setup
     val expAmoves = Set(Square('a', 3), Square('d', 2))
@@ -53,12 +53,11 @@ class KnightTests extends FunSuite {
     assert(expCmoves == cMoves.toSet)
   }
 
-  test("knights may capture expected pieces"){
+  test("knights may capture expected pieces") {
 
     // setup
     val expAcaptures = Seq(Square('c', 3))
     val expCcaptures = Seq(Square('b', 1))
-
 
     // act
     val aCaptures = All.filter(whiteKnightA.mayCapture(_, board))

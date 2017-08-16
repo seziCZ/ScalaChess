@@ -1,20 +1,20 @@
 package cz.sezima.chess.core.board
 
+import scala.collection.SeqView
+
 import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.piece._
 import org.scalatest.FunSuite
 
-import scala.collection.SeqView
-
 /**
- * A set of [[Board]] relevant unit tests.
- */
+  * A set of [[Board]] relevant unit tests.
+  */
 class BoardTests extends FunSuite {
 
   val initBoard: Board =
     Board.Initial
 
-  test("board recognises color of a player that moves"){
+  test("board recognises color of a player that moves") {
 
     // setup
     val history: Seq[Move] = Seq(
@@ -29,7 +29,7 @@ class BoardTests extends FunSuite {
     assert(board.onMove == Black)
   }
 
-  test("draw is recognised correctly"){
+  test("draw is recognised correctly") {
 
     // setup
     val history: Seq[Move] = Seq(
@@ -50,7 +50,7 @@ class BoardTests extends FunSuite {
     assert(!board.mayPlay(Black))
   }
 
-  test("check is recognised correctly"){
+  test("check is recognised correctly") {
 
     // setup
     val pieces: Seq[Piece] = Seq(
@@ -66,7 +66,7 @@ class BoardTests extends FunSuite {
     assert(!board.isInCheck(White))
   }
 
-  test("checkmate is recognised correctly"){
+  test("checkmate is recognised correctly") {
 
     // setup
     val pieces: Seq[Piece] = Seq(
@@ -82,7 +82,7 @@ class BoardTests extends FunSuite {
     assert(!board.isCheckmated(White))
   }
 
-  test("'pieceAt' yields expected values"){
+  test("'pieceAt' yields expected values") {
 
     // setup
     val whiteRook: Rook = Rook(White, Square('a', 1))
@@ -96,7 +96,7 @@ class BoardTests extends FunSuite {
     assert(initBoard.pieceAt(Square('c', 4)).isEmpty)
   }
 
-  test("'genMoves' function yields expected moves"){
+  test("'genMoves' function yields expected moves") {
 
     // setup
     val pawn: Pawn =
@@ -105,9 +105,8 @@ class BoardTests extends FunSuite {
     val board: Board =
       Board(Seq(pawn), Seq.empty)
 
-    val expMoves: Set[Move] = Set(
-      pawn ~> Square('a', 3),
-      pawn ~> Square('a', 4))
+    val expMoves: Set[Move] =
+      Set(pawn ~> Square('a', 3), pawn ~> Square('a', 4))
 
     // act
     val whiteResult: SeqView[Move, Seq[_]] = board.genMoves(White)
@@ -118,7 +117,7 @@ class BoardTests extends FunSuite {
     assert(expMoves == whiteResult.toSet)
   }
 
-  test("'pieceBy' function yields expected values"){
+  test("'pieceBy' function yields expected values") {
 
     // setup
     val whiteKing: King = King(White, Square('e', 1))

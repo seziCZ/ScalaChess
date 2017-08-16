@@ -37,7 +37,6 @@ class AlphaBetaPlayerTests extends FunSuite {
 
     // assert
     assert(result.isCheckmated(White), result)
-    println(s"Test game lasted for ${result.history.length} moves: \n$result")
   }
 
   test("white alpha-beta player beats random black player") {
@@ -48,6 +47,5 @@ class AlphaBetaPlayerTests extends FunSuite {
 
     // assert
     assert(result.isCheckmated(Black), result)
-    println(s"Test game lasted for ${result.history.length} moves: \n$result")
   }
 }

@@ -69,8 +69,7 @@ case class Square(file: Char, rank: Int) {
     */
   def until(coordinate: Square): Seq[Square] = coordinate match {
     case to if sharesDiag(to) =>
-      iter(to, _.file).zip(iter(to, _.rank))
-        .map { case (f, r) => Square(f.toChar, r) }
+      iter(to, _.file).zip(iter(to, _.rank)).map { case (f, r) => Square(f.toChar, r) }
     case to if sharesFile(to) => iter(to, _.rank).map(Square(file, _))
     case to if sharesRank(to) => iter(to, _.file).map(f => Square(f.toChar, rank))
     case _ => Seq.empty

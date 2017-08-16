@@ -44,29 +44,29 @@ class BoardExtensionsTests extends FunSuite {
   test("file emptiness is recognised correctly") {
 
     // act, assert
-    assert(board.isEmptyFiles(Square('c', 3), Square('c', 6)))
-    assert(board.isEmptyFiles(Square('c', 6), Square('c', 3)))
-    assert(board.isEmptyFiles(Square('c', 1), Square('c', 3)))
-    assert(board.isEmptyFiles(Square('c', 6), Square('c', 8)))
+    assert(board.areEmptyFiles(Square('c', 3), Square('c', 6)))
+    assert(board.areEmptyFiles(Square('c', 6), Square('c', 3)))
+    assert(board.areEmptyFiles(Square('c', 1), Square('c', 3)))
+    assert(board.areEmptyFiles(Square('c', 6), Square('c', 8)))
 
-    assert(!board.isEmptyFiles(Square('c', 1), Square('c', 8)))
-    assert(!board.isEmptyFiles(Square('c', 2), Square('c', 4)))
-    assert(!board.isEmptyFiles(Square('c', 5), Square('c', 7)))
-    assert(!board.isEmptyFiles(Square('c', 2), Square('c', 7)))
+    assert(!board.areEmptyFiles(Square('c', 1), Square('c', 8)))
+    assert(!board.areEmptyFiles(Square('c', 2), Square('c', 4)))
+    assert(!board.areEmptyFiles(Square('c', 5), Square('c', 7)))
+    assert(!board.areEmptyFiles(Square('c', 2), Square('c', 7)))
   }
 
   test("rank emptiness is recognised correctly") {
 
     // act, assert
-    assert(board.isEmptyRanks(Square('c', 3), Square('f', 3)))
-    assert(board.isEmptyRanks(Square('f', 3), Square('c', 3)))
-    assert(board.isEmptyRanks(Square('a', 3), Square('c', 3)))
-    assert(board.isEmptyRanks(Square('f', 3), Square('h', 3)))
+    assert(board.areEmptyRanks(Square('c', 3), Square('f', 3)))
+    assert(board.areEmptyRanks(Square('f', 3), Square('c', 3)))
+    assert(board.areEmptyRanks(Square('a', 3), Square('c', 3)))
+    assert(board.areEmptyRanks(Square('f', 3), Square('h', 3)))
 
-    assert(!board.isEmptyRanks(Square('a', 3), Square('h', 3)))
-    assert(!board.isEmptyRanks(Square('b', 3), Square('d', 3)))
-    assert(!board.isEmptyRanks(Square('e', 3), Square('g', 3)))
-    assert(!board.isEmptyRanks(Square('b', 3), Square('g', 3)))
+    assert(!board.areEmptyRanks(Square('a', 3), Square('h', 3)))
+    assert(!board.areEmptyRanks(Square('b', 3), Square('d', 3)))
+    assert(!board.areEmptyRanks(Square('e', 3), Square('g', 3)))
+    assert(!board.areEmptyRanks(Square('b', 3), Square('g', 3)))
   }
 
   test("diagonal emptiness is recognised correctly") {

@@ -5,12 +5,12 @@
  */
 package cz.sezima.chess.core.board
 
-import cz.sezima.chess.core.Colors.{White, Black}
+import cz.sezima.chess.core.Colors.{Black, White}
 import org.scalatest.FunSuite
 
 /**
- * A set of [[Square]] relevant unit tests.
- */
+  * A set of [[Square]] relevant unit tests.
+  */
 class SquareTests extends FunSuite {
 
   test("'All' property holds all possible squares") {
@@ -21,7 +21,7 @@ class SquareTests extends FunSuite {
     assert(32 == Square.All.count(_.color == Black))
   }
 
-  test("'x' and 'y' axis reflect square's coordinates"){
+  test("'x' and 'y' axis reflect square's coordinates") {
 
     // setup
     val firstSquare = Square('a', 1)
@@ -39,22 +39,14 @@ class SquareTests extends FunSuite {
     assert(expSecondCoords == secondCoords)
   }
 
-  test("square color reflects it's coordinates"){
+  test("square color reflects it's coordinates") {
 
     //setup
     val blacks: Seq[Square] =
-      Seq(
-        Square('a', 1),
-        Square('c', 5),
-        Square('f', 2),
-        Square('h', 8))
+      Seq(Square('a', 1), Square('c', 5), Square('f', 2), Square('h', 8))
 
     val whites: Seq[Square] =
-      Seq(
-        Square('a', 8),
-        Square('c', 6),
-        Square('f', 1),
-        Square('h', 1))
+      Seq(Square('a', 8), Square('c', 6), Square('f', 1), Square('h', 1))
 
     // act
     val isAllBlacks = blacks.forall(_.color == Black)
@@ -65,7 +57,7 @@ class SquareTests extends FunSuite {
     assert(isAllWhites)
   }
 
-  test("'unitl' function yields expected results"){
+  test("'unitl' function yields expected results") {
 
     // setup
     val expFiles = Set(Square('a', 4), Square('a', 5))
@@ -91,7 +83,7 @@ class SquareTests extends FunSuite {
     assert(emptyResult.isEmpty)
   }
 
-  test("'apply' function yields expected squares"){
+  test("'apply' function yields expected squares") {
 
     // act, assert
     assert(Square('d', 6) == Square("d6"))

@@ -22,15 +22,15 @@ case class Board private[core] (
 ) {
 
   /**
-    * [[Color]] of a [[Player]] that is expected to make a next move.
+    * [[Color]] of a [[Player]] that is expected to make a next [[Move]].
     */
   val onMove: Color =
     history.headOption.map(_.piece.color.inv).getOrElse(White)
 
   /**
-   * Determines whether 'this' [[Board]] is coherent.
-   * @return 'True' if board describes valid game, 'false' otherwise
-   */
+    * Determines whether 'this' [[Board]] is coherent.
+    * @return 'True' if board describes valid game, 'false' otherwise
+    */
   lazy val isValid: Boolean = {
     val init: Either[Board, String] = Left(Board.Initial)
     val replayed = history.foldRight(init) {
@@ -89,13 +89,13 @@ case class Board private[core] (
     pieceBy[Piece](_.atPos == pos)
 
   /**
-   * A generic version of [[pieceAt]] function. An interesting thing here is that
-   * parameter is being type checked which allows queries like (k: King) => ...
-   * @param req A condition to be used when looking for a [[Piece]]
-   * @return [[Piece]] that matches given condition, [[None]] if no such a [[Piece]] exists
-   */
+    * A generic version of [[pieceAt]] function. An interesting thing here is that
+    * parameter is being type checked which allows queries like (k: King) => ...
+    * @param req A condition to be used when looking for a [[Piece]]
+    * @return [[Piece]] that matches given condition, [[None]] if no such a [[Piece]] exists
+    */
   private[chess] def pieceBy[T <: Piece](req: T => Boolean)(
-    implicit ct: ClassTag[T]): Option[T] =
+      implicit ct: ClassTag[T]): Option[T] =
     pieces
       .find { case piece: T => req(piece); case _ => false }
       .asInstanceOf[Option[T]]
@@ -109,7 +109,7 @@ case class Board private[core] (
     */
   private[chess] def genMoves(color: Color): SeqView[Move, Seq[_]] = {
     val controlled: Seq[Piece] = pieces.filter(_.color == color)
-    val reachable: Seq[Square] = Square.All diff controlled.map(_.atPos)
+    val reachable: Seq[Square] = Square.All.diff(controlled.map(_.atPos))
     for {
       piece: Piece <- controlled.view
       square: Square <- reachable.view
@@ -141,7 +141,7 @@ case class Board private[core] (
 object Board {
 
   /**
-    * A [[Board]] that describes initial game setup.
+    * An initial [[Board]] singleton.
     */
   val Initial: Board = {
 

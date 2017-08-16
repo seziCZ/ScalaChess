@@ -11,8 +11,8 @@ import cz.sezima.chess.core.board.{Board, Square}
 import org.scalatest.FunSuite
 
 /**
- * A set of [[Rook]] relevant unit tests.
- */
+  * A set of [[Rook]] relevant unit tests.
+  */
 class RookTests extends FunSuite {
 
   val blackRookA = Rook(Black, Square('a', 1))
@@ -30,7 +30,7 @@ class RookTests extends FunSuite {
   val board: Board =
     Board(rooks, Seq.empty)
 
-  test("rooks may move in expected directions"){
+  test("rooks may move in expected directions") {
 
     // setup
     val expAYmoves = (2 to 3).map(Square('a', _)).toSet

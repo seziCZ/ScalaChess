@@ -9,9 +9,10 @@ import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.board.Square._
 import cz.sezima.chess.core.board.{Board, Square}
 import org.scalatest.FunSuite
+
 /**
- * A set of [[Bishop]] relevant unit tests.
- */
+  * A set of [[Bishop]] relevant unit tests.
+  */
 class BishopTests extends FunSuite {
 
   val whiteB = Bishop(White, Square('a', 3))
@@ -23,14 +24,11 @@ class BishopTests extends FunSuite {
   val board: Board =
     Board(bishops, Seq.empty)
 
-  test("bishops may move to expected positions"){
+  test("bishops may move to expected positions") {
 
     // setup
-    val expWmoves = Seq(
-      Square('b', 4),
-      Square('c', 5),
-      Square('b', 2),
-      Square('c', 1))
+    val expWmoves =
+      Seq(Square('b', 4), Square('c', 5), Square('b', 2), Square('c', 1))
 
     val expBmoves = Seq(
       Square('c', 5),
@@ -53,7 +51,7 @@ class BishopTests extends FunSuite {
     assert(expBmoves.toSet == bMoves.toSet)
   }
 
-  test("bishops may capture expected pieces"){
+  test("bishops may capture expected pieces") {
 
     // setup
     val expWCaptures = Seq(Square('d', 6))

@@ -9,6 +9,7 @@ import cz.sezima.chess.core.Color
 import cz.sezima.chess.core.Colors.{Black, White}
 import cz.sezima.chess.core.board.BoardExtensions._
 import cz.sezima.chess.core.board.{Board, Square}
+import math._
 
 /**
   * A [[Pawn]].
@@ -31,8 +32,8 @@ final case class Pawn(color: Color, atPos: Square) extends Piece {
 
   override def mayCapture(to: Square, at: Board): Boolean = {
     lazy val isThreatenByPawn: Boolean = color match {
-      case White => atPos.y + 1 == to.y && math.abs(atPos.x - to.x) == 1
-      case Black => atPos.y - 1 == to.y && math.abs(atPos.x - to.x) == 1
+      case White => atPos.y + 1 == to.y && abs(atPos.x - to.x) == 1
+      case Black => atPos.y - 1 == to.y && abs(atPos.x - to.x) == 1
     }
 
     isThreatenByPawn && at.isOccupiedBy(color.inv, to) ||

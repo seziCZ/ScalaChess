@@ -18,7 +18,7 @@ trait Piece {
 
   /**
     * Trait implementations are known to be case classes whose
-    * constructors expect a color and a square...
+    * constructors expect a [[Color]] and a [[Square]]...
     */
   this: { def copy(a: Color, b: Square): Piece } =>
 
@@ -36,15 +36,15 @@ trait Piece {
 
   /**
     * A weight of a [[Piece]] that might be used when analysing
-    * effectivity of individual [[Move]]s. The higher the number is,
-    * the more important is a [[Piece]].
+    * merit of individual [[Move]]s. The higher the number is,
+    * the more important [[Piece]] is.
     * @return [[Int]] weight of 'this' [[Piece]]
     */
   def weight: Int
 
   /**
-    * Returns mnemonic of 'this' [[Piece]]
-    * @return 'this' [[Piece]]'s mnemonic
+    * Returns symbol of 'this' [[Piece]]
+    * @return character specific to 'this' [[Piece]]
     */
   def symbol: Char
 
@@ -96,7 +96,7 @@ trait Piece {
     mayMoveTo(pos, at) || mayCapture(pos, at)
 
   /**
-    * Function that allows [[Board]] refinemens after every successful [[Move]]
+    * Function that allows [[Board]] refinements after every successful [[Move]]
     * of 'this' [[Piece]]. For more info see implementation of 'en passant' rule
     * at [[Pawn]] class or 'castling' associated with s [[King]]. Note that misuse
     * of this function may break [[Board]] properties that are relied on by other

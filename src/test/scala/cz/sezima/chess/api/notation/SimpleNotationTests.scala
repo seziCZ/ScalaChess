@@ -15,7 +15,7 @@ import org.scalatest.FunSuite
   */
 class SimpleNotationTests extends FunSuite {
 
-  test("moves are recognised correctly"){
+  test("moves are recognised correctly") {
 
     // setup
     val expLegalMove: Move = Pawn(White, Square('e', 2)) ~> Square('e', 4)

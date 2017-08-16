@@ -59,7 +59,6 @@ class ChessTests extends FunSuite {
     assert(expResult == result)
   }
 
-
   // helpers
 
   private def replay(moves: List[Move], at: Board): Board =

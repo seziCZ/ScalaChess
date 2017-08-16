@@ -10,8 +10,8 @@ import cz.sezima.chess.core.board.{Board, Square}
 import org.scalatest.FunSuite
 
 /**
- * A set of [[Move]] relevant unit tests.
- */
+  * A set of [[Move]] relevant unit tests.
+  */
 class MoveTests extends FunSuite {
 
   val whiteKing = King(White, Square('c', 3))
@@ -30,7 +30,7 @@ class MoveTests extends FunSuite {
   val board: Board =
     Board(pieces, history)
 
-  test("'validateColorAt' function yields expected results"){
+  test("'validateColorAt' function yields expected results") {
 
     // setup
     val validMove = blackKing ~> Square('b', 5)
@@ -41,7 +41,7 @@ class MoveTests extends FunSuite {
     assert(invalidMove.validateColorAt(board).nonEmpty)
   }
 
-  test("'validateMembershipAt' function yields expected results"){
+  test("'validateMembershipAt' function yields expected results") {
 
     // setup
     val validMove = blackKing ~> Square('b', 5)
@@ -52,7 +52,7 @@ class MoveTests extends FunSuite {
     assert(invalidMove.validateMembershipAt(board).nonEmpty)
   }
 
-  test("validateMovementAt'' function yields expected results"){
+  test("validateMovementAt'' function yields expected results") {
 
     // setup
     val validMove = blackKing ~> Square('b', 8)
@@ -63,7 +63,7 @@ class MoveTests extends FunSuite {
     assert(invalidMove.validateMovementAt(board).nonEmpty)
   }
 
-  test("validateKingAt'' function yields expected results"){
+  test("validateKingAt'' function yields expected results") {
 
     // setup
     val validMove = blackKing ~> Square('b', 5)
@@ -71,13 +71,12 @@ class MoveTests extends FunSuite {
     val validBoard = validMove.update(board)
     val invalidBoard = invalidMove.update(board)
 
-
     // act, assert
     assert(validMove.validateKingAt(validBoard).isLeft)
     assert(invalidMove.validateKingAt(invalidBoard).isRight)
   }
 
-  test("board may be updated regardless of rules"){
+  test("board may be updated regardless of rules") {
 
     // setup
     val move: Move =

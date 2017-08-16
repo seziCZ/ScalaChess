@@ -28,11 +28,11 @@ case class Move(piece: Piece, dest: Square) {
   }
 
   /**
-   * Validates that given [[Board]] may be updated using 'this' [[Move]]
-   * @param board [[Board]] whose coherence is to be determined
-   * @return [[Some]] error message if [[Board]] could not be updated,
-   *        [[None]] otherwise
-   */
+    * Validates that given [[Board]] may be updated using 'this' [[Move]]
+    * @param board [[Board]] whose coherence is to be determined
+    * @return [[Some]] error message if [[Board]] could not be updated,
+    *        [[None]] otherwise
+    */
   def validateAt(board: Board): Option[String] =
     validateColorAt(board)
       .orElse(validateMembershipAt(board))
@@ -47,7 +47,7 @@ case class Move(piece: Piece, dest: Square) {
     */
   private[core] def update(b: Board): Board = {
     val toRemove = b.pieceAt(dest).toSeq :+ piece
-    val newPieces = b.pieces.filterNot(toRemove.contains) :+ piece ~>> dest
+    val newPieces = b.pieces.diff(toRemove) :+ piece ~>> dest
     Board(newPieces, this +: b.history)
   }
 
@@ -63,7 +63,7 @@ case class Move(piece: Piece, dest: Square) {
 
   private[piece] def validateMovementAt(board: Board): Option[String] =
     if (piece.mayReach(dest, board)) None
-    else Some(s"Piece ${piece.symbol} at ${piece.atPos} could not move to $dest.")
+    else Some(s"Piece ${piece.symbol} at ${piece.atPos} may not move to $dest.")
 
   private[piece] def validateKingAt(updated: Board): Either[Board, String] =
     if (!updated.isInCheck(piece.color)) Left(updated)

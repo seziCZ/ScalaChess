@@ -33,41 +33,41 @@ object BoardExtensions {
 
     /**
       * A file (column) emptiness check.
-      * @param fromFile A bound of an interval to be inspected, exclusive
-      * @param toFile The other bound of an interval, exclusive
+      * @param from A bound of an interval to be inspected, exclusive
+      * @param to The other bound of an interval, exclusive
       * @return 'True' if there are no pieces covered by the interval,
       *         'false' otherwise
       * @throws IllegalArgumentException if given [[Square]]s do not share files
       */
-    def isEmptyFiles(fromFile: Square, toFile: Square): Boolean = {
-      require(fromFile.sharesFile(toFile))
-      isEmpty(fromFile until toFile: _*)
+    def areEmptyFiles(from: Square, to: Square): Boolean = {
+      require(from.sharesFile(to))
+      isEmpty(from until to: _*)
     }
 
     /**
       * A rank (row) emptiness check.
-      * @param fromRank A bound of an interval to be inspected, exclusive
-      * @param toRank The other bound of an interval, exclusive
+      * @param from A bound of an interval to be inspected, exclusive
+      * @param to The other bound of an interval, exclusive
       * @return 'True' if there are no pieces covered by the interval,
       *         'false' otherwise
       * @throws IllegalArgumentException if given [[Square]]s do not share ranks
       */
-    def isEmptyRanks(fromRank: Square, toRank: Square): Boolean = {
-      require(fromRank.sharesRank(toRank))
-      isEmpty(fromRank until toRank: _*)
+    def areEmptyRanks(from: Square, to: Square): Boolean = {
+      require(from.sharesRank(to))
+      isEmpty(from until to: _*)
     }
 
     /**
       * Diagonal emptiness check.
-      * @param diagStart A bound of an interval to be inspected, exclusive
-      * @param diagEnd The other bound of an interval, exclusive
+      * @param from A bound of an interval to be inspected, exclusive
+      * @param to The other bound of an interval, exclusive
       * @return 'True' if there are no pieces covered by the interval,
       *         'false' otherwise
       * @throws IllegalArgumentException if given [[Square]]s do not share diagonal
       */
-    def isEmptyDiag(diagStart: Square, diagEnd: Square): Boolean = {
-      require(diagStart.sharesDiag(diagEnd))
-      isEmpty(diagStart until diagEnd: _*)
+    def isEmptyDiag(from: Square, to: Square): Boolean = {
+      require(from.sharesDiag(to))
+      isEmpty(from until to: _*)
     }
   }
 

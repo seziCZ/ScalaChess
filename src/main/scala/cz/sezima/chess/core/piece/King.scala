@@ -9,6 +9,7 @@ import cz.sezima.chess.core.Color
 import cz.sezima.chess.core.Colors.White
 import cz.sezima.chess.core.board.BoardExtensions._
 import cz.sezima.chess.core.board.{Board, Square}
+import math._
 
 /**
   * A [[King]].
@@ -52,7 +53,7 @@ final case class King(color: Color, atPos: Square) extends Piece {
     *         'false' otherwise
     */
   private def mayInteractWith(to: Square, at: Board): Boolean =
-    math.abs(atPos.file - to.file) <= 1 && math.abs(atPos.rank - to.rank) <= 1
+    abs(atPos.file - to.file) <= 1 && abs(atPos.rank - to.rank) <= 1
 
   /**
     * Determines whether castling takes place.
@@ -63,13 +64,12 @@ final case class King(color: Color, atPos: Square) extends Piece {
     */
   private def isCastling(dest: Square, rook: Square, b: Board): Boolean = {
     lazy val isSafeRow: Boolean = {
-      val boards: Seq[Board] =
-        ((this until dest) :+ dest).map(s => (this ~> s).update(b))
+      val boards = ((this until dest) :+ dest).map(s => (this ~> s).update(b))
       (b +: boards).forall(!_.isInCheck(color))
     }
 
     !hasPieceMoved(rook, b) && !hasPieceMoved(this, b) &&
-    b.isEmptyRanks(this, rook) && isSafeRow
+    b.areEmptyRanks(this, rook) && isSafeRow
   }
 
   /**
